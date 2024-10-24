@@ -1,5 +1,6 @@
 package com.kiatkoding.ecommerce.service;
 
+import com.kiatkoding.ecommerce.model.dto.UserDTO;
 import com.kiatkoding.ecommerce.model.entity.UserEntity;
 import com.kiatkoding.ecommerce.model.request.RegisterRequest;
 import com.kiatkoding.ecommerce.repository.UserRepository;
@@ -16,14 +17,23 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserEntity userEntity() {
+    public UserDTO userEntity() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
 
         String phoneNumber = userDetails.getUsername();
         return userRepository.findByPhoneNumber(phoneNumber)
+                .map(this::mapFromEntity)
                 .orElseThrow();
+    }
+
+    private UserDTO mapFromEntity(UserEntity userEntity) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(userEntity.getId());
+        userDTO.setName(userEntity.getName());
+        userDTO.setPhoneNumber(userEntity.getPhoneNumber());
+        return userDTO;
     }
 
 

@@ -1,5 +1,6 @@
 package com.kiatkoding.ecommerce.controller;
 
+import com.kiatkoding.ecommerce.model.dto.UserDTO;
 import com.kiatkoding.ecommerce.model.entity.UserEntity;
 import com.kiatkoding.ecommerce.model.request.RegisterRequest;
 import com.kiatkoding.ecommerce.model.response.BaseResponse;
@@ -16,7 +17,7 @@ public class UserController {
 
     @GetMapping
     public BaseResponse getUser() {
-        UserEntity userEntity = userService.userEntity();
-        return new BaseResponse(true, "Success", userEntity);
+        UserDTO userDTO = userService.userEntity();
+        return new BaseResponse(true, "Success", userDTO);
     }
 }
